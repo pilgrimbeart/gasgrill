@@ -64,6 +64,6 @@ Model the light from the physics, not a hue mapped onto gas level:
 
 - **Resolution:** 16:9 to match slides. The default is 960×540 cells (1920×1080 chugged live); `--size` changes it. It must be very efficient, so use numpy, with numba kernels for the cell update.
 - **Live view:** the default mode (`python grill.py`), a window with a knob slider for exploring the settings.
-- **Video:** a deterministic, seeded render to MP4 via ffmpeg.
+- **Video:** playing records every frame shown to `recordings/grill-<time>.mp4`, saved on Esc (`--no-record` to skip), so the knob can be worked by hand. `--render` makes a deterministic, seeded MP4 offline, with the knob on a schedule.
 - **Later, maybe:** a WebGL browser version, so the knob can be turned live on stage. Not now.
 - Before reporting something as working, show it live in the interactive view.

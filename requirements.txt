@@ -2,3 +2,4 @@ numpy
 numba
 pygame
 imageio-ffmpeg
+tbb
