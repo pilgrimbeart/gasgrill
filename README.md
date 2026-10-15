@@ -96,6 +96,9 @@ The first run takes a few seconds longer while numba compiles the rule. It keeps
 # Full HD (slower)
 .venv/bin/python grill.py --size 1920x1080
 
+# The 8's holes, at the same size and spacing, packed hexagonally over the whole sheet
+.venv/bin/python grill.py --layout honeycomb
+
 # A sheet of thousands of small holes instead of the figure of 8 (also grid, random)
 .venv/bin/python grill.py --layout hex
 

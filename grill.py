@@ -127,10 +127,23 @@ def eight(W, H, n, fill):
     return cs, fill * gaps.min() / 2
 
 
+def honeycomb(W, H, n, fill):
+    """The 8's holes, at the 8's spacing, packed hexagonally over the whole sheet."""
+    r = eight(W, H, n, fill)[1]
+    px = 2 * r / fill
+    py = px * math.sqrt(3) / 2
+    cs = np.array([((i + j % 2 / 2) * px, j * py)
+                   for j in range(int((H - 2 * r) // py) + 1) for i in range(int(W // px) + 1)])
+    cs = cs[cs[:, 0] <= W - 2 * r]                       # keep the holes that fit
+    return cs + (np.array([W, H]) - cs.max(0) - cs.min(0)) / 2, r
+
+
 def burners(W, H, n, fill, layout, rng):
     """Centres and radius of the circular holes over a W x H sheet."""
     if layout == 'eight':
         return eight(W, H, n, fill)
+    if layout == 'honeycomb':
+        return honeycomb(W, H, n, fill)
     pitch = math.sqrt(W * H / n)
     r = fill * pitch / 2
     if layout == 'random':
@@ -324,7 +337,7 @@ def knob_at(schedule, t):
 def make(a):
     W, H = map(int, a.size.split('x'))
     kw = dict(kv.split('=') for kv in a.set) if a.set else {}
-    lattice = a.layout != 'eight'
+    lattice = a.layout in ('grid', 'hex', 'random')
     gr = Grill(W, H, n=a.burners or (W * H // 324 if lattice else 10),
                fill=a.fill or (0.8 if lattice else 0.97), layout=a.layout, seed=a.seed,
                **{k: float(v) for k, v in kw.items()})
@@ -470,9 +483,9 @@ def main():
     ap.add_argument('--render', metavar='OUT.mp4')
     ap.add_argument('--measure', action='store_true', help='headless: print how much is lit')
     ap.add_argument('--size', default='960x540')
-    ap.add_argument('--layout', choices=('eight', 'grid', 'hex', 'random'), default='eight')
+    ap.add_argument('--layout', choices=('eight', 'honeycomb', 'grid', 'hex', 'random'), default='eight')
     ap.add_argument('--burners', type=int,
-                    help='holes per loop of the 8 (default 10), or in all (default one per 18x18 cells)')
+                    help='holes per loop of the 8 (default 10; honeycomb copies their size), or in all (default one per 18x18 cells)')
     ap.add_argument('--fill', type=float, help='hole diameter / spacing (default 0.97 for the 8, 0.8 otherwise)')
     ap.add_argument('--knob', default='1.5', help="value, or schedule 'v:t,v:t' in seconds")
     ap.add_argument('--speed', type=int, default=64, help='ticks per frame')

@@ -31,7 +31,7 @@ The real grill is a flat envelope fed with gas, with holes cut in its underside 
 
 A sheet of identical cells, each running one small local rule.
 
-- **Burners:** circular discs (the holes), with count, size and layout as parameters. The default layout is a horizontal figure of 8, with 10 large holes per loop and one shared where the loops cross. A sheet of many small holes (hex, grid or random) is also available. Gas enters uniformly over each disc at the supply rate `s`, which is **the knob**. The space between discs is air.
+- **Burners:** circular discs (the holes), with count, size and layout as parameters. The default layout is a horizontal figure of 8, with 10 large holes per loop and one shared where the loops cross. `honeycomb` packs the same holes, at the same spacing, hexagonally over the whole sheet. A sheet of many small holes (hex, grid or random) is also available. Gas enters uniformly over each disc at the supply rate `s`, which is **the knob**. The space between discs is air.
 - **Each cell holds:**
   - gas `g` and a flame size (0 when out, up to 1), both private;
   - heat `f`, the **one shared number** ("ignition"), which spreads to neighbours and decays.
